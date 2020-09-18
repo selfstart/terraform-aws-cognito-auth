@@ -109,7 +109,6 @@ variable "user_group_name" {
   description = "Cognito user group name"
 }
 
-
 variable "zoho_id" {
   description = "Zoho account id"
 }

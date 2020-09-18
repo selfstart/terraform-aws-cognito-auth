@@ -65,9 +65,9 @@ export const post = handler<{}, Request, Session>(schema,
     if (username && password) {
       const { refresh, ...body } =
         await auth.authenticateWithCredentials(username, password)
-      const zohoId = jsonwebtoken.decode(body.id.token);
+      const decodedJWT: any = jsonwebtoken.decode(body.id.token);
       return {
-        body: remember ? { ...body, zohoId, refresh } : { ...body, zohoId },
+        body: remember ? { ...body, zohoId: decodedJWT['custom:zohoId'], refresh } : { ...body, zohoId: decodedJWT['custom:zohoId'] },
         ...(remember && refresh
           ? {
               headers: {
@@ -82,9 +82,9 @@ export const post = handler<{}, Request, Session>(schema,
       token = token || parseTokenCookie(headers.Cookie)
       try {
         const session = await auth.authenticateWithToken(token)
-        const zohoId = jsonwebtoken.decode(session.id.token);
+        const decodedJWT: any = jsonwebtoken.decode(session.id.token);
         return {
-          body: { ...session, zohoId }
+          body: { ...session, zohoId: decodedJWT['custom:zohoId'] }
         }
       } catch (err) {
         err.code = err.code || err.name

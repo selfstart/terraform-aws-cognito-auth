@@ -25,9 +25,7 @@ class ZohoService {
     };
 
     try {
-      const {
-        data: [lead],
-      }: any = await ZohoService.callApi(options);
+      const lead: any = await ZohoService.callApi(options);
       return lead;
     } catch (error) {
       throw new Error("Failed search");
@@ -44,6 +42,7 @@ class ZohoService {
     };
 
     try {
+      //@todo: this will be broken in the future
       const { data }: any = await ZohoService.callApi(options);
       return data.map((attachment: any) => {
         return {
@@ -68,11 +67,7 @@ class ZohoService {
     };
 
     const {
-      data: [
-        {
-          details: { id: newId },
-        },
-      ],
+      details: { id: newId },
     }: any = await ZohoService.callApi(options);
     return newId;
   }
@@ -88,11 +83,7 @@ class ZohoService {
     };
 
     const {
-      data: [
-        {
-          details: { id: newId },
-        },
-      ],
+      details: { id: newId },
     }: any = await ZohoService.callApi(options);
     if (!newId) {
       throw new Error("Failed creating new Zoho lead");
@@ -115,11 +106,7 @@ class ZohoService {
     };
 
     const {
-      data: [
-        {
-          details: { id: newId },
-        },
-      ],
+      details: { id: newId },
     }: any = await ZohoService.callApi(options);
     return newId;
   }
@@ -142,45 +129,32 @@ class ZohoService {
     return access_token;
   }
 
-  static async callApi(options: any, refresh?: boolean): Promise<any> {
-    const response = await ZohoService.executeCall(options);
-
-    const data =
-      response.data.data[0] ||
-      response.response.data.data[0] ||
-      response.response.data[0] ||
-      response.response.data ||
-      response.data;
-    if (data && (!data.status || data.status != "error")) {
-      return response.data;
-    }
-    if (refresh) {
-      switch (data.code) {
-        case "INVALID_TOKEN":
-          throw new Error(data.message || "Invalid authorization token");
-        default:
-          throw new Error(data.message || "Unknown failure");
-      }
-    } else {
-      switch (data.code) {
-        case "INVALID_TOKEN":
-          ZohoService.access_token = await ZohoService.refreshToken();
-          options.headers.Authorization = "Bearer " + ZohoService.access_token;
-          return await ZohoService.callApi(options, true);
-        default:
-          throw new Error(data.message || "Unknown failure");
-      }
-    }
+  static async callApi(options: any) {
+    ZohoService.access_token = await ZohoService.refreshToken();
+    const authHeader = "Bearer " + ZohoService.access_token;
+    const response = await ZohoService.executeCall({ ...options, headers: { ...options.headers,  Authorization: authHeader }});
+    return deriveZohoResponse(response)
   }
 
   static async executeCall(options: any) {
-    try {
-      return axios(options).catch((error) => {
+    return axios(options).catch((error) => {
+        console.log('[zoho]: executeCall err ->', error)
         return error;
-      });
-    } catch (error) {
-      throw error;
-    }
+    });
+  }
+}
+
+const deriveZohoResponse = (response: any) => {
+  if (response && response.data && response.data.data[0]) {
+    return response.data.data[0];
+  } else if (response && response.response && response.response.data && response.response.data.data[0]) {
+    return response.response.data.data[0];
+  } else if (response && response.response && response.response.data[0]) {
+    return response.response.data[0];
+  } else if (response && response.data) {
+    return response.data
+  } else {
+    return response
   }
 }
 

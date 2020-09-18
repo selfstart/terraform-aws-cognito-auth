@@ -43,11 +43,20 @@ export const post = handler<{}, Request>(schema,
     throwOnPasswordPolicyViolation(password)
     const auth = new AuthenticationClient()
     try {
-      const zohoId = await ZohoClient.newLead({ email, phoneNumber, firstName, lastName })
+      const zohoId = await ZohoClient.newLead({
+        data: [
+          {
+            Email: email,
+            First_Name: firstName,
+            Last_Name: lastName,
+            Phone: phoneNumber
+          }
+        ]
+      })
       await auth.register(email, password, zohoId)
-      return { body: { newLeadId: zohoId } };
+      return { body: { success: true, newLeadId: zohoId } };
     } catch (e) {
-      console.debug('[zoho]: creation failed', email, password, phoneNumber, firstName, lastName)
-      return {}
+      console.debug('[zoho]: creation failed', email, password, phoneNumber, firstName, lastName, e)
+      return { body: { success: false }}
     }
   })

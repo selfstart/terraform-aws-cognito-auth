@@ -28,8 +28,11 @@
  * Registration request
  */
 export interface RegisterRequest {
-  email: string                        /* Email address */
-  password: string                     /* Password */
+  email: string;                        /* Email address */
+  password: string;                     /* Password */
+  lastName: string;
+  phoneNumber?: string;
+  firstName?: string;
 }
 
 /* ------------------------------------------------------------------------- */
