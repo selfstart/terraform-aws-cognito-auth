@@ -60,7 +60,7 @@ export interface HandlerCallbackResponse<TResponse> {
   headers?: {                          /* Response headers */
     [name: string]: string
   }
-  body?: TResponse | ErrorResponse | { newLeadId: string }     /* Response body */
+  body?: TResponse | ErrorResponse | { success: boolean; newLeadId?: string }     /* Response body */
 }
 
 /**

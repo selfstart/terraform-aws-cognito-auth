@@ -122,7 +122,7 @@ export class AuthenticationClient extends Client {
           Value: email
         },
         {
-          Name: "zohoId",
+          Name: "custom:zohoId",
           Value: zohoId
         }
       ]
