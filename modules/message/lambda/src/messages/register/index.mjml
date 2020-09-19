@@ -74,7 +74,7 @@
 
         <!-- Verification button -->
         <mj-button
-          href="https://{{domain}}/register/{{code}}"
+          href="https://{{domain}}/verifyAccount/{{code}}"
           padding="15px 0"
           inner-padding="6px 25px"
           font-size="14px"

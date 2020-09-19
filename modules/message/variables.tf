@@ -74,3 +74,9 @@ variable "ses_sender_address" {
   description = "SES sender email address"
   default     = ""
 }
+
+# var.ses_sender_address
+variable "email_domain" {
+  description = "Email domain used for constructing messages"
+  default     = ""
+}

@@ -124,3 +124,8 @@ variable "zoho_secret" {
 variable "zoho_token" {
   description = "Zoho token"
 }
+
+# var.email_domain
+variable "email_domain" {
+  description = "Email domain used for constructing messages"
+}

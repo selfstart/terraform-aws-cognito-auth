@@ -108,6 +108,7 @@ resource "aws_lambda_function" "_" {
       COGNITO_IDENTITY_POOL_NAME     = "${var.cognito_identity_pool_name}"
       COGNITO_IDENTITY_POOL_PROVIDER = "${var.cognito_identity_pool_provider}"
       SES_SENDER_ADDRESS             = "${var.ses_sender_address}"
+      EMAIL_DOMAIN                   = "${var.email_domain}"
     }
   }
 }
