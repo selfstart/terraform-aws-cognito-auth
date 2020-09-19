@@ -43,16 +43,16 @@ function template(code: VerificationCode) {
     /* Registration verification message */
     case "register":
       return new RegisterMessage({
-        name: (process.env.EMAIL_DOMAIN)!.replace('Users',''),
-        domain: process.env.COGNITO_IDENTITY_POOL_PROVIDER!,
+        name: process.env.COGNITO_IDENTITY_POOL_NAME!.replace('Users',''),
+        domain: process.env.EMAIL_DOMAIN!,
         code: code.id
       })
 
     /* Reset verification message */
     case "reset":
       return new ResetMessage({
-        name: (process.env.EMAIL_DOMAIN)!.replace('Users',''),
-        domain: process.env.COGNITO_IDENTITY_POOL_PROVIDER!,
+        name: process.env.COGNITO_IDENTITY_POOL_NAME!.replace('Users',''),
+        domain: process.env.EMAIL_DOMAIN!,
         code: code.id
       })
 
