@@ -48,20 +48,26 @@ export const post = handler<{}, LeaveRequest>(schema,
       const session = new SessionClient(token)
       await session.signOut()
       return {
+        body: {
+          success: true,
+        },
         headers: {
-          "Set-Cookie": resetTokenCookie()
+          "Set-Cookie": resetTokenCookie(),
+          "Access-Control-Allow-Origin": "*"
         }
       }
     } catch (err) {
       err.code = err.code || err.name
       return {
         statusCode: err.statusCode || 400,
+        success: false,
         body: {
           type: err.code,
           message: err.message.replace(/\.$/, "")
         },
         headers: {
-          "Set-Cookie": resetTokenCookie()
+          "Set-Cookie": resetTokenCookie(),
+          "Access-Control-Allow-Origin": "*"
         }
       }
     }

@@ -141,7 +141,7 @@ export function handler<
       /* Execute handler and return response */
       const { statusCode, headers, body } = {
         statusCode: undefined,
-        headers: {},
+        headers: { "Access-Control-Allow-Origin": "*" },
         body: undefined,
         ...(await cb({
           path: event.path,

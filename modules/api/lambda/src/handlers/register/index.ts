@@ -57,6 +57,6 @@ export const post = handler<{}, Request>(schema,
       return { body: { success: true, newLeadId: zohoId } };
     } catch (e) {
       console.debug('[zoho]: creation failed', email, password, phoneNumber, firstName, lastName, e)
-      return { body: { success: false }}
+      return { body: { success: false, message: e }}
     }
   })

@@ -67,11 +67,12 @@ export const post = handler<{}, Request, Session>(schema,
         await auth.authenticateWithCredentials(username, password)
       const decodedJWT: any = jsonwebtoken.decode(body.id.token);
       return {
-        body: remember ? { ...body, zohoId: decodedJWT['custom:zohoId'], refresh } : { ...body, zohoId: decodedJWT['custom:zohoId'] },
+        body: remember ? { ...body, success: true, zohoId: decodedJWT['custom:zohoId'], refresh } : { ...body, success: true, zohoId: decodedJWT['custom:zohoId'] },
         ...(remember && refresh
           ? {
               headers: {
-                "Set-Cookie": issueTokenCookie(refresh)
+                "Set-Cookie": issueTokenCookie(refresh),
+                "Access-Control-Allow-Origin": "*"
               }
             }
           : {})
@@ -91,11 +92,13 @@ export const post = handler<{}, Request, Session>(schema,
         return {
           statusCode: err.statusCode || 400,
           body: {
+            success: false,
             type: err.code,
             message: err.message.replace(/\.$/, "")
           },
           headers: {
-            "Set-Cookie": resetTokenCookie()
+            "Set-Cookie": resetTokenCookie(),
+            "Access-Control-Allow-Origin": "*"
           }
         }
       }
