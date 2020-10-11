@@ -48,6 +48,9 @@ module "api" {
   zoho_refresh_token = var.zoho_refresh_token
   zoho_secret = var.zoho_secret
   zoho_token = var.zoho_token
+
+  id_credit_services_partner_pass = var.id_credit_services_partner_pass
+  id_credit_services_partner_code = var.id_credit_services_partner_code
 }
 
 # module.identity

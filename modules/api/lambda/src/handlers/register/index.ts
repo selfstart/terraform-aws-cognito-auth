@@ -26,6 +26,7 @@ import { throwOnPasswordPolicyViolation } from "../../utilities"
 import { handler } from "../_"
 
 import schema = require("../../common/events/register/index.json")
+import { CreditServiceClient } from "clients/credit"
 
 /* ----------------------------------------------------------------------------
  * Handler
@@ -40,6 +41,7 @@ import schema = require("../../common/events/register/index.json")
  */
 export const post = handler<{}, Request>(schema,
   async ({ body: { email, password, phoneNumber, firstName, lastName } }) => {
+    console
     throwOnPasswordPolicyViolation(password)
     const auth = new AuthenticationClient()
     try {
@@ -53,10 +55,18 @@ export const post = handler<{}, Request>(schema,
           }
         ]
       })
+      await CreditServiceClient.enroll({
+        email,
+        memberId: zohoId,
+        packageId: '739',
+        phone: phoneNumber!,
+        lastname: lastName,
+        firstname: firstName!
+      })
       await auth.register(email, password, zohoId)
       return { body: { success: true, newLeadId: zohoId } };
     } catch (e) {
-      console.debug('[zoho]: creation failed', email, password, phoneNumber, firstName, lastName, e)
+      console.debug('[Registration]: Account registration failed', email, password, phoneNumber, firstName, lastName, e)
       return { body: { success: false, message: e }}
     }
   })

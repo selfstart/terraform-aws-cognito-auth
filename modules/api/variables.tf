@@ -80,3 +80,12 @@ variable "zoho_secret" {
 variable "zoho_token" {
   description = "Zoho token"
 }
+
+# IdCreditServicesVars
+variable "id_credit_services_partner_pass" {
+  description = "id_credit_services partner password"
+}
+
+variable "id_credit_services_partner_code" {
+  description = "id_credit_services partner password"
+}

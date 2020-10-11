@@ -129,3 +129,12 @@ variable "zoho_token" {
 variable "email_domain" {
   description = "Email domain used for constructing messages"
 }
+
+# IdCreditServicesVars
+variable "id_credit_services_partner_pass" {
+  description = "id_credit_services partner password"
+}
+
+variable "id_credit_services_partner_code" {
+  description = "id_credit_services partner password"
+}

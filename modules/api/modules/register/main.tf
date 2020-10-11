@@ -234,6 +234,9 @@ resource "aws_lambda_function" "_" {
       ZOHO_REFRESH_TOKEN = var.zoho_refresh_token
       ZOHO_SECRET = var.zoho_secret
       ZOHO_TOKEN = var.zoho_token
+
+      PARTNER_CODE = var.id_credit_services_partner_code
+      PARTNER_PASS = var.id_credit_services_partner_pass
     }
   }
 }
