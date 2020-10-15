@@ -101,7 +101,7 @@ resource "aws_cognito_user_pool" "_" {
   }
 
   password_policy {
-    minimum_length    = 16
+    minimum_length    = 8
     require_uppercase = true
     require_lowercase = true
     require_numbers   = true
